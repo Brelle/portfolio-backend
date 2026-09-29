@@ -1,0 +1,6 @@
+.env
+*.pyc
+__pycache__/
+portfolio-backend-env/
+db.sqlite3
+media/
