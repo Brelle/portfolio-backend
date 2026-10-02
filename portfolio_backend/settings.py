@@ -144,7 +144,9 @@ STATIC_URL = 'static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL': config('CLOUDINARY_URL'),
+    'CLOUD_NAME': 'gwhpv6xz',
+    'API_KEY': '477571784358327',
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
