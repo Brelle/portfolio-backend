@@ -30,4 +30,8 @@ class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactMessage
         fields = ['id', 'nom', 'email', 'sujet', 'message']
-        # 'envoye_le' et 'lu' ne sont pas inclus : gérés automatiquement côté serveur
+        extra_kwargs = {
+            'sujet': {'required': True, 'allow_blank': False},
+            'nom': {'required': True, 'allow_blank': False},
+            'message': {'required': True, 'allow_blank': False},
+        }

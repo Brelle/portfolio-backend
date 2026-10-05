@@ -172,11 +172,14 @@ MEDIA_URL = '/media/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+CONTACT_EMAIL_RECEIVER = config('CONTACT_EMAIL_RECEIVER', default=EMAIL_HOST_USER)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://*.vercel.app",
