@@ -1,6 +1,6 @@
+import resend
 from rest_framework import viewsets, generics
 from rest_framework.exceptions import APIException
-from django.core.mail import send_mail
 from django.conf import settings
 from .models import Skill, Project, Experience, Education, ContactMessage
 from .serializers import (
@@ -47,14 +47,15 @@ class ContactMessageCreateView(generics.CreateAPIView):
         )
 
         try:
-            send_mail(
-                sujet_mail,
-                corps_mail,
-                settings.DEFAULT_FROM_EMAIL,
-                [settings.CONTACT_EMAIL_RECEIVER],
-                fail_silently=False,
-            )
+            resend.api_key = settings.RESEND_API_KEY
+            resend.Emails.send({
+                "from": "Portfolio <onboarding@resend.dev>",
+                "to": [settings.CONTACT_EMAIL_RECEIVER],
+                "reply_to": instance.email,
+                "subject": sujet_mail,
+                "text": corps_mail,
+            })
         except Exception:
-            # L'email a échoué : le message reste enregistré en base (visible dans l'admin),
+            # Le message reste enregistré en base (visible dans l'admin),
             # mais on informe le visiteur que l'envoi n'a pas abouti.
-            raise APIException("L'envoi de l'email a échoué. Le message a été enregistré mais non transmis.")
+            raise APIException("L'envoi de l'email a échoué.")
